@@ -969,7 +969,7 @@
 
         function openWaTemplate(templateLines) {
           const text = templateLines.filter(Boolean).join("\\n");
-          location.href = buildWaLink(data.whatsappNumber, text);
+          location.href = buildWaLink(DEFAULT.whatsappNumber, text);
         }
 
         function waForRoom(group, name, priceIdr) {
