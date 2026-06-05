@@ -1,0 +1,1589 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banana Leaf Accommodation</title>
+    <meta
+      name="description"
+      content="Banana Leaf Resort & Banana Leaf Bungalow — reservasi dan booking penginapan."
+    />
+    <style>
+      :root {
+        /* Warna seperti contoh (hijau gelap + aksen pisang) */
+        --bg: #2f3d1f;
+        --bg2: #243116;
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.72);
+        --muted2: rgba(255, 255, 255, 0.58);
+        --card: #ffffff;
+        --cardText: rgba(0, 0, 0, 0.88);
+        --cardMuted: rgba(0, 0, 0, 0.6);
+        --line: rgba(255, 255, 255, 0.18);
+        --accent: #f7c948;
+        --accent2: #89d99d;
+        --radius: 22px;
+        --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+        --shadowSoft: 0 10px 20px rgba(0, 0, 0, 0.18);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          "Apple Color Emoji", "Segoe UI Emoji";
+        background: radial-gradient(
+            circle at 20% 0%,
+            rgba(247, 201, 72, 0.14),
+            transparent 35%
+          ),
+          radial-gradient(circle at 90% 10%, rgba(137, 217, 157, 0.12), transparent 40%),
+          linear-gradient(180deg, var(--bg), var(--bg2));
+        color: var(--text);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .wrap {
+        min-height: 100vh;
+        padding: 22px 16px 40px;
+      }
+      .container {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      /* Header profile */
+      .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 8px;
+      }
+      .logoRing {
+        width: 92px;
+        height: 92px;
+        border-radius: 999px;
+        border: 3px solid rgba(255, 255, 255, 0.75);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.15);
+        box-shadow: var(--shadowSoft);
+      }
+      .logoRing img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+      }
+      .logoFallback {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
+      .titleRow {
+        margin-top: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+      }
+      .badge {
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        background: var(--accent2);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 16px rgba(137, 217, 157, 0.25);
+      }
+      .handle {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .bio {
+        margin-top: 10px;
+        font-size: 13px;
+        line-height: 1.55;
+        color: var(--muted);
+      }
+      .dividerText {
+        margin-top: 18px;
+        font-size: 12px;
+        letter-spacing: 0.28em;
+        color: rgba(255, 255, 255, 0.62);
+        font-weight: 900;
+      }
+
+      /* Link cards */
+      .links {
+        margin-top: 16px;
+        display: grid;
+        gap: 14px;
+      }
+      .linkCard {
+        background: var(--card);
+        color: var(--cardText);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .linkImg {
+        height: 132px;
+        background: linear-gradient(
+            135deg,
+            rgba(47, 61, 31, 0.12),
+            rgba(247, 201, 72, 0.2)
+          ),
+          linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.0));
+        position: relative;
+        background-size: cover;
+        background-position: center;
+      }
+      .linkImg.hasPhoto::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.0),
+          rgba(0, 0, 0, 0.08)
+        );
+      }
+      .pill {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(247, 201, 72, 0.95);
+        color: rgba(0, 0, 0, 0.85);
+      }
+      .linkBody {
+        padding: 14px 14px 16px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: rgba(47, 61, 31, 0.08);
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+      }
+      .linkText {
+        flex: 1;
+        min-width: 0;
+      }
+      .linkTitle {
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        font-size: 14px;
+      }
+      .linkDesc {
+        margin-top: 5px;
+        font-size: 12px;
+        line-height: 1.45;
+        color: var(--cardMuted);
+      }
+      .linkAction {
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.04);
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+      }
+
+      /* Sections (detail) */
+      .section {
+        margin-top: 18px;
+        padding-top: 10px;
+      }
+      .sectionCard {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius);
+        padding: 14px;
+      }
+      .sectionTitle {
+        font-weight: 900;
+        letter-spacing: -0.01em;
+      }
+      .roomGrid {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+      }
+      .roomRow {
+        padding: 12px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .roomBtn {
+        width: 100%;
+        cursor: pointer;
+        text-align: left;
+      }
+      button.roomRow {
+        appearance: none;
+        -webkit-appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        font: inherit;
+        color: inherit;
+      }
+      .roomBtn:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+      .roomName {
+        font-weight: 900;
+        font-size: 13px;
+      }
+      .roomPrice {
+        font-weight: 900;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      .tiny {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--muted2);
+        line-height: 1.45;
+      }
+
+      /* Simple button */
+      .btnRow {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 900;
+        font-size: 12px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        user-select: none;
+      }
+      .btnPrimary {
+        background: var(--accent);
+        color: rgba(0, 0, 0, 0.85);
+        box-shadow: 0 12px 24px rgba(247, 201, 72, 0.25);
+      }
+      .btnGhost {
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.9);
+        border-color: rgba(255, 255, 255, 0.14);
+      }
+
+      /* Admin modal */
+      .backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 99;
+      }
+      .backdrop.show {
+        display: flex;
+      }
+      .modal {
+        width: 100%;
+        max-width: 520px;
+        background: #fff;
+        color: rgba(0, 0, 0, 0.88);
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+      }
+      .modalHead {
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .modalTitle {
+        font-weight: 1000;
+        letter-spacing: -0.01em;
+      }
+      .modalBody {
+        padding: 14px 16px 18px;
+        max-height: 72vh;
+        overflow: auto;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        font-size: 12px;
+        font-weight: 900;
+        margin-top: 12px;
+      }
+      input,
+      select,
+      textarea {
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        outline: none;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .adminRow {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .adminBtn {
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 1000;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(0, 0, 0, 0.04);
+        cursor: pointer;
+      }
+      .adminBtnPrimary {
+        background: #0b0f0c;
+        color: #fff;
+        border-color: #0b0f0c;
+      }
+      .err {
+        margin-top: 10px;
+        color: #b91c1c;
+        font-weight: 900;
+        font-size: 13px;
+      }
+      .logoPreview {
+        width: 86px;
+        height: 86px;
+        border-radius: 999px;
+        border: 2px solid rgba(0, 0, 0, 0.12);
+        object-fit: cover;
+        display: none;
+        margin-top: 10px;
+      }
+      .footNote {
+        margin-top: 18px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.55);
+        text-align: center;
+      }
+
+      /* Gallery */
+      .galleryGrid {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .galleryItem {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        cursor: pointer;
+        padding: 0;
+      }
+      .galleryItem img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .galleryHint {
+        margin-top: 10px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.62);
+      }
+      .imgViewer {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.82);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 120;
+      }
+      .imgViewer.show {
+        display: flex;
+      }
+      .imgViewerInner {
+        width: 100%;
+        max-width: 820px;
+      }
+      .imgViewerTop {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 900;
+        font-size: 13px;
+      }
+      .imgViewerClose {
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.92);
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-weight: 1000;
+        cursor: pointer;
+      }
+      .imgViewerImg {
+        width: 100%;
+        max-height: 78vh;
+        object-fit: contain;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="container">
+        <div class="profile">
+          <div class="logoRing">
+            <img id="logoImg" alt="Banana Leaf logo" />
+            <div class="logoFallback" id="logoFallback">BL</div>
+          </div>
+
+          <div class="titleRow">
+            <h1 id="profileTitle">Banana Leaf Accommodation</h1>
+            <span class="badge" title="Verified">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9.2 12.7 7.4 10.9 6 12.3 9.2 15.5 18 6.7 16.6 5.3 9.2 12.7Z"
+                  fill="#0b0f0c"
+                />
+              </svg>
+            </span>
+          </div>
+          <div class="handle" id="profileHandle">@bananaleaf_gili</div>
+          <div class="bio" id="profileBio">
+            Your tropical hideaway on Gili Trawangan Island. Stay close to the
+            beach, sleep beneath swaying palms, and wake up to the sound of the
+            ocean. #StayWithBananaLeaf
+          </div>
+
+          <div class="dividerText">BOOKING NOW!</div>
+        </div>
+
+        <div class="links">
+          <a class="linkCard" href="#booking">
+            <div class="linkImg" id="cardImgBooking">
+              <div class="pill">BEST DEAL</div>
+            </div>
+            <div class="linkBody">
+              <div class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 4V2h2v2h6V2h2v2h3v18H4V4h3Zm13 6H6v10h14V10Zm-1-4H5v2h14V6Z"
+                    fill="rgba(0,0,0,0.7)"
+                  />
+                </svg>
+              </div>
+              <div class="linkText">
+                <div class="linkTitle">Book Direct, Get Best Rate!</div>
+                <div class="linkDesc">
+                  Pesan langsung &amp; dapatkan penawaran terbaik. (Kamu bisa
+                  edit teksnya nanti.)
+                </div>
+              </div>
+              <div class="linkAction" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10 6h8v8h-2V9.41l-9.29 9.3-1.42-1.42 9.3-9.29H10V6Z"
+                    fill="rgba(0,0,0,0.55)"
+                  />
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a class="linkCard" href="#kamar">
+            <div class="linkImg" id="cardImgRooms"></div>
+            <div class="linkBody">
+              <div class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 11V7a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v4h2a2 2 0 0 1 2 2v7h-2v-2H4v2H2v-7a2 2 0 0 1 2-2h3Zm2 0h6V7a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v4Zm-5 5h18v-3H4v3Z"
+                    fill="rgba(0,0,0,0.7)"
+                  />
+                </svg>
+              </div>
+              <div class="linkText">
+                <div class="linkTitle">Reservasi Kamar &amp; Villa</div>
+                <div class="linkDesc">
+                  Cek tipe kamar Banana Leaf Resort &amp; Banana Leaf Bungalow.
+                </div>
+              </div>
+              <div class="linkAction" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10 6h8v8h-2V9.41l-9.29 9.3-1.42-1.42 9.3-9.29H10V6Z"
+                    fill="rgba(0,0,0,0.55)"
+                  />
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a class="linkCard" href="#snorkeling">
+            <div class="linkImg" id="cardImgSnorkeling"></div>
+            <div class="linkBody">
+              <div class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 2c5.52 0 10 3.58 10 8 0 2.81-1.77 5.3-4.5 6.7V22l-2.5-2-2.5 2-2.5-2-2.5 2v-5.3C1.77 15.3 0 12.81 0 10c0-4.42 4.48-8 10-8h2Zm-2 2C5.58 4 2 6.47 2 10c0 2.3 1.55 4.28 4 5.44V18l2-1.6 2 1.6 2-1.6 2 1.6v-2.56c2.45-1.16 4-3.14 4-5.44 0-3.53-3.58-6-8-6h-2Z"
+                    fill="rgba(0,0,0,0.7)"
+                  />
+                </svg>
+              </div>
+              <div class="linkText">
+                <div class="linkTitle">Snorkeling</div>
+                <div class="linkDesc">
+                  Info snorkeling — nanti kamu isi sendiri detail &amp; gambar.
+                </div>
+              </div>
+              <div class="linkAction" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10 6h8v8h-2V9.41l-9.29 9.3-1.42-1.42 9.3-9.29H10V6Z"
+                    fill="rgba(0,0,0,0.55)"
+                  />
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a class="linkCard" href="#activities">
+            <div class="linkImg" id="cardImgActivities"></div>
+            <div class="linkBody">
+              <div class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 2a7 7 0 0 1 7 7v2h3v2h-1l-1 9H4L3 13H2v-2h3V9a7 7 0 0 1 7-7Zm5 9V9a5 5 0 0 0-10 0v2h10Z"
+                    fill="rgba(0,0,0,0.7)"
+                  />
+                </svg>
+              </div>
+              <div class="linkText">
+                <div class="linkTitle">Aktivitas Lainnya</div>
+                <div class="linkDesc">
+                  Cantumkan harga aktivitas lain (contoh: tour, transport,
+                  dll.).
+                </div>
+              </div>
+              <div class="linkAction" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10 6h8v8h-2V9.41l-9.29 9.3-1.42-1.42 9.3-9.29H10V6Z"
+                    fill="rgba(0,0,0,0.55)"
+                  />
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a class="linkCard" href="#gallery">
+            <div class="linkImg" id="cardImgGallery"></div>
+            <div class="linkBody">
+              <div class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M4 5a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5Zm3-1a1 1 0 0 0-1 1v9.6l2.4-2.4a2 2 0 0 1 2.83 0l2.12 2.12 3.64-3.64a2 2 0 0 1 2.83 0l.64.64V5a1 1 0 0 0-1-1H7Zm12 15v-4.77l-1.64-1.64-4.5 4.5-3.12-3.12a.5.5 0 0 0-.71 0L6 16.99V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1Z"
+                    fill="rgba(0,0,0,0.7)"
+                  />
+                </svg>
+              </div>
+              <div class="linkText">
+                <div class="linkTitle">Galeri Kamar</div>
+                <div class="linkDesc">
+                  Foto-foto isi kamar (termasuk kamar mandi). Bisa upload banyak
+                  dari Admin.
+                </div>
+              </div>
+              <div class="linkAction" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10 6h8v8h-2V9.41l-9.29 9.3-1.42-1.42 9.3-9.29H10V6Z"
+                    fill="rgba(0,0,0,0.55)"
+                  />
+                </svg>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- DETAIL SECTIONS -->
+        <div class="section" id="kamar">
+          <div class="sectionCard">
+            <div class="sectionTitle">Kamar &amp; Harga</div>
+            <div class="tiny">
+              Harga per malam (Rupiah). Edit lewat Admin supaya sesuai.
+            </div>
+            <div class="roomGrid" id="roomGrid"></div>
+          </div>
+        </div>
+
+        <div class="section" id="snorkeling">
+          <div class="sectionCard">
+            <div class="sectionTitle">Snorkeling</div>
+            <div class="tiny" id="snorkText"></div>
+            <div class="roomGrid" id="snorkPackageGrid"></div>
+          </div>
+        </div>
+
+        <div class="section" id="activities">
+          <div class="sectionCard">
+            <div class="sectionTitle" id="activitiesTitle">Aktivitas Lainnya</div>
+            <div class="tiny" id="activitiesText">
+              Kamu bisa isi paket & harga aktivitas lainnya di Admin.
+            </div>
+            <div class="roomGrid" id="otherPackageGrid"></div>
+          </div>
+        </div>
+
+        <div class="section" id="gallery">
+          <div class="sectionCard">
+            <div class="sectionTitle">Galeri Kamar</div>
+            <div class="tiny">
+              Tap foto untuk memperbesar. Upload dari Admin (rekomendasi 10–20
+              foto agar tidak berat).
+            </div>
+            <div class="galleryGrid" id="galleryGrid"></div>
+            <div class="galleryHint" id="galleryHint"></div>
+          </div>
+        </div>
+
+        <div class="section" id="booking">
+          <div class="sectionCard">
+            <div class="sectionTitle">Reservasi &amp; Booking</div>
+            <div class="tiny">
+              Bukan GoFood/ShopeeFood — ini khusus penginapan. Klik tombol untuk
+              booking via WhatsApp.
+            </div>
+            <div class="btnRow">
+              <button class="btn btnPrimary" id="waBtn" type="button">
+                Booking via WhatsApp
+              </button>
+              <button class="btn btnGhost" id="openAdmin" type="button">
+                Admin
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="footNote">
+          Tips: file ini bisa dibuka offline di HP. Untuk jadi link publik (semua orang bisa
+          buka), tetap perlu upload/deploy.
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE VIEWER -->
+    <div class="imgViewer" id="imgViewer" aria-hidden="true">
+      <div class="imgViewerInner">
+        <div class="imgViewerTop">
+          <div id="imgViewerTitle">Galeri</div>
+          <button class="imgViewerClose" id="imgViewerClose" type="button">
+            Tutup
+          </button>
+        </div>
+        <img class="imgViewerImg" id="imgViewerImg" alt="Preview" />
+      </div>
+    </div>
+
+    <!-- ADMIN MODAL -->
+    <div class="backdrop" id="backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Admin Panel">
+        <div class="modalHead">
+          <div class="modalTitle">Admin Panel</div>
+          <button class="adminBtn" id="closeAdmin" type="button">Tutup</button>
+        </div>
+        <div class="modalBody">
+          <div id="loginBox">
+            <div style="font-size: 13px; color: rgba(0, 0, 0, 0.65); font-weight: 700">
+              Login cukup pakai password (tanpa username).
+            </div>
+            <div class="field">
+              Password
+              <input id="pw" type="password" placeholder="Masukkan password" />
+            </div>
+            <div class="adminRow">
+              <button class="adminBtn adminBtnPrimary" id="loginBtn" type="button">
+                Login
+              </button>
+              <button class="adminBtn" id="resetBtn" type="button">
+                Reset Default
+              </button>
+            </div>
+            <div class="err" id="err"></div>
+          </div>
+
+          <div id="editor" style="display: none">
+            <div style="font-size: 13px; color: rgba(0, 0, 0, 0.65); font-weight: 700">
+              Data tersimpan di HP/browser kamu (localStorage).
+            </div>
+
+            <div class="field">
+              Nomor WhatsApp (tanpa +)
+              <input id="waNumber" type="text" placeholder="6281234567890" />
+            </div>
+
+            <div class="field">
+              Logo (upload)
+              <input id="logoFile" type="file" accept="image/*" />
+              <img id="logoPreview" class="logoPreview" alt="Logo preview" />
+            </div>
+
+            <div class="field">
+              Judul
+              <input id="titleInput" type="text" placeholder="Banana Leaf Accommodation" />
+            </div>
+
+            <div class="field">
+              Username/handle
+              <input id="handleInput" type="text" placeholder="@bananaleaf_gili" />
+            </div>
+
+            <div class="field">
+              Deskripsi singkat
+              <textarea
+                id="bioInput"
+                placeholder="Tulis deskripsi singkat…"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              Snorkeling (teks)
+              <textarea id="snorkInput" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+              Gambar card (upload)
+              <div style="display:grid;gap:10px">
+                <label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">
+                  Card: Book Direct
+                  <input id="cardImgBookingFile" type="file" accept="image/*" />
+                </label>
+                <label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">
+                  Card: Reservasi Kamar
+                  <input id="cardImgRoomsFile" type="file" accept="image/*" />
+                </label>
+                <label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">
+                  Card: Snorkeling
+                  <input id="cardImgSnorkelingFile" type="file" accept="image/*" />
+                </label>
+                <label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">
+                  Card: Aktivitas Lainnya
+                  <input id="cardImgActivitiesFile" type="file" accept="image/*" />
+                </label>
+                <label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">
+                  Card: Galeri Kamar
+                  <input id="cardImgGalleryFile" type="file" accept="image/*" />
+                </label>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <img id="cardImgBookingPreview" class="logoPreview" alt="Preview card booking" />
+                  <img id="cardImgRoomsPreview" class="logoPreview" alt="Preview card kamar" />
+                  <img id="cardImgSnorkelingPreview" class="logoPreview" alt="Preview card snorkeling" />
+                  <img id="cardImgActivitiesPreview" class="logoPreview" alt="Preview card aktivitas" />
+                  <img id="cardImgGalleryPreview" class="logoPreview" alt="Preview card galeri" />
+                </div>
+                <div style="font-size:12px;color:rgba(0,0,0,0.6);font-weight:700">
+                  Setelah upload, klik <b>Simpan</b>.
+                </div>
+              </div>
+            </div>
+
+            <div class="adminRow">
+              <button class="adminBtn adminBtnPrimary" id="saveBtn" type="button">
+                Simpan
+              </button>
+              <button class="adminBtn" id="logoutBtn" type="button">Logout</button>
+            </div>
+
+            <div class="field" style="margin-top: 18px">
+              Harga Kamar (Rupiah)
+              <div style="font-size: 12px; color: rgba(0, 0, 0, 0.6); font-weight: 700">
+                Format angka: 350000 = Rp 350.000
+              </div>
+              <div id="roomEditor"></div>
+            </div>
+
+            <div class="field" style="margin-top: 18px">
+              Harga Snorkeling (Rupiah)
+              <div style="font-size: 12px; color: rgba(0, 0, 0, 0.6); font-weight: 700">
+                Tambah paket snorkeling & harga. Format angka: 150000 = Rp 150.000
+              </div>
+              <div id="snorkPackageEditor"></div>
+            </div>
+
+            <div class="field" style="margin-top: 18px">
+              Harga Aktivitas Lainnya (Rupiah)
+              <div style="font-size: 12px; color: rgba(0, 0, 0, 0.6); font-weight: 700">
+                Contoh: airport transfer, tour, sewa sepeda, dll.
+              </div>
+              <div id="otherPackageEditor"></div>
+            </div>
+
+            <div class="field" style="margin-top: 18px">
+              Galeri Kamar (upload banyak foto)
+              <div style="font-size: 12px; color: rgba(0, 0, 0, 0.6); font-weight: 700">
+                Bisa upload banyak foto (kamar, kamar mandi, view, dll). Tips: pilih 10–20 foto supaya ringan.
+              </div>
+              <input id="galleryFiles" type="file" accept="image/*" multiple />
+              <div class="adminRow">
+                <button class="adminBtn" id="galleryClearBtn" type="button">
+                  Hapus semua foto galeri
+                </button>
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap" id="galleryAdminThumbs"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const ADMIN_PASSWORD = "newbanana2026";
+        const STORAGE_KEY = "bananaLeafLinkBio.v1";
+        const SESSION_KEY = "bananaLeafLinkBioAuthed.v1";
+
+        const DEFAULT = {
+          title: "Banana Leaf Accommodation",
+          handle: "@bananaleaf_gili",
+          bio:
+            "Your tropical hideaway on Gili Trawangan Island. Stay close to the beach, sleep beneath swaying palms, and wake up to the sound of the ocean. #StayWithBananaLeaf",
+          whatsappNumber: "6280000000000",
+          snorkelingText:
+            "Air jernih, terumbu karang cantik, dan pengalaman yang bikin nagih. (Kamu bisa isi detailnya nanti.)",
+          logoDataUrl: "",
+          cardImages: {
+            booking: "",
+            rooms: "",
+            snorkeling: "",
+            activities: "",
+            gallery: "",
+          },
+          galleryImages: [],
+          rooms: [
+            { group: "Banana Leaf Resort", name: "Resort Room", priceIdr: 350000 },
+            { group: "Banana Leaf Bungalow", name: "Deluxe Suite", priceIdr: 350000 },
+            { group: "Banana Leaf Bungalow", name: "Twin", priceIdr: 300000 },
+            { group: "Banana Leaf Bungalow", name: "Superior Double", priceIdr: 300000 },
+            { group: "Banana Leaf Bungalow", name: "Standard", priceIdr: 325000 },
+          ],
+          snorkelingPackages: [
+            { name: "Snorkeling (per orang)", priceIdr: 150000, note: "Include alat" },
+            { name: "Snorkeling + Guide", priceIdr: 250000, note: "Durasi ± 2 jam" },
+          ],
+          activitiesTitle: "Aktivitas Lainnya",
+          activitiesText: "Kamu bisa isi paket & harga aktivitas lainnya di Admin.",
+          otherPackages: [
+            { name: "Airport / Port Transfer", priceIdr: 200000, note: "Sekali jalan" },
+            { name: "Sewa Sepeda", priceIdr: 50000, note: "Per hari" },
+          ],
+        };
+
+        const $ = (id) => document.getElementById(id);
+
+        function safeParse(str) {
+          if (!str) return null;
+          try {
+            return JSON.parse(str);
+          } catch {
+            return null;
+          }
+        }
+
+        function getData() {
+          return safeParse(localStorage.getItem(STORAGE_KEY)) || JSON.parse(JSON.stringify(DEFAULT));
+        }
+        function setData(next) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        }
+        function formatIdr(amount) {
+          try {
+            return new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              maximumFractionDigits: 0,
+            }).format(amount);
+          } catch {
+            return "Rp " + String(amount).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".");
+          }
+        }
+        function buildWaLink(number, text) {
+          const num = String(number || "").replace(/[^\\d]/g, "");
+          return "https://wa.me/" + num + "?text=" + encodeURIComponent(text);
+        }
+
+        function openWaTemplate(templateLines) {
+          const text = templateLines.filter(Boolean).join("\\n");
+          window.open(buildWaLink(data.whatsappNumber, text), "_blank");
+        }
+
+        function waForRoom(group, name, priceIdr) {
+          openWaTemplate([
+            "Halo Banana Leaf 👋",
+            "",
+            "Saya mau reservasi/booking kamar:",
+            "• " + group,
+            "• Tipe: " + name,
+            "• Harga: " + formatIdr(Number(priceIdr || 0)) + " / malam",
+            "",
+            "Tanggal check-in: (isi)",
+            "Berapa malam: (isi)",
+            "Jumlah tamu: (isi)",
+            "",
+            "Terima kasih!",
+          ]);
+        }
+
+        function waForPackage(title, name, priceIdr, note) {
+          openWaTemplate([
+            "Halo Banana Leaf 👋",
+            "",
+            "Saya mau booking:",
+            "• Kategori: " + title,
+            "• Paket: " + name,
+            "• Harga: " + formatIdr(Number(priceIdr || 0)),
+            note ? "• Keterangan: " + note : null,
+            "",
+            "Tanggal: (isi)",
+            "Jumlah orang: (isi)",
+            "",
+            "Terima kasih!",
+          ]);
+        }
+
+        let data = getData();
+
+        // UI binds
+        const logoImg = $("logoImg");
+        const logoFallback = $("logoFallback");
+        const profileTitle = $("profileTitle");
+        const profileHandle = $("profileHandle");
+        const profileBio = $("profileBio");
+        const roomGrid = $("roomGrid");
+        const snorkText = $("snorkText");
+        const snorkPackageGrid = $("snorkPackageGrid");
+        const otherPackageGrid = $("otherPackageGrid");
+        const activitiesTitle = $("activitiesTitle");
+        const activitiesText = $("activitiesText");
+        const cardImgBooking = $("cardImgBooking");
+        const cardImgRooms = $("cardImgRooms");
+        const cardImgSnorkeling = $("cardImgSnorkeling");
+        const cardImgActivities = $("cardImgActivities");
+        const cardImgGallery = $("cardImgGallery");
+        const galleryGrid = $("galleryGrid");
+        const galleryHint = $("galleryHint");
+        const imgViewer = $("imgViewer");
+        const imgViewerImg = $("imgViewerImg");
+        const imgViewerTitle = $("imgViewerTitle");
+        const imgViewerClose = $("imgViewerClose");
+
+        function setCardImage(el, dataUrl) {
+          if (!el) return;
+          if (dataUrl) {
+            el.style.backgroundImage = 'url("' + dataUrl + '")';
+            el.classList.add("hasPhoto");
+          } else {
+            el.style.backgroundImage = "";
+            el.classList.remove("hasPhoto");
+          }
+        }
+
+        function renderPackageGrid(container, packages) {
+          if (!container) return;
+          container.innerHTML = "";
+          if (!Array.isArray(packages) || packages.length === 0) return;
+          packages.forEach((p) => {
+            const row = document.createElement("button");
+            row.type = "button";
+            row.className = "roomRow roomBtn";
+            const note = p.note ? String(p.note) : "";
+            row.innerHTML =
+              '<div><div class="roomName">' +
+              escapeHtml(p.name) +
+              '</div>' +
+              (note
+                ? '<div class="tiny" style="margin-top:4px">' + escapeHtml(note) + "</div>"
+                : "") +
+              "</div>" +
+              '<div class="roomPrice">' +
+              escapeHtml(formatIdr(Number(p.priceIdr || 0))) +
+              "</div>";
+            row.addEventListener("click", () => {
+              const title =
+                container.id === "snorkPackageGrid"
+                  ? "Snorkeling"
+                  : activitiesTitle.textContent || "Aktivitas Lainnya";
+              waForPackage(title, p.name, p.priceIdr, note);
+            });
+            container.appendChild(row);
+          });
+        }
+
+        function renderProfile() {
+          profileTitle.textContent = data.title || DEFAULT.title;
+          profileHandle.textContent = data.handle || DEFAULT.handle;
+          profileBio.textContent = data.bio || DEFAULT.bio;
+          snorkText.textContent = data.snorkelingText || DEFAULT.snorkelingText;
+          activitiesTitle.textContent = data.activitiesTitle || DEFAULT.activitiesTitle;
+          activitiesText.textContent = data.activitiesText || DEFAULT.activitiesText;
+
+          if (data.logoDataUrl) {
+            logoImg.src = data.logoDataUrl;
+            logoImg.style.display = "block";
+            logoFallback.style.display = "none";
+          } else {
+            logoImg.style.display = "none";
+            logoFallback.style.display = "grid";
+          }
+
+          const imgs = data.cardImages || DEFAULT.cardImages;
+          setCardImage(cardImgBooking, imgs.booking);
+          setCardImage(cardImgRooms, imgs.rooms);
+          setCardImage(cardImgSnorkeling, imgs.snorkeling);
+          setCardImage(cardImgActivities, imgs.activities);
+          setCardImage(cardImgGallery, imgs.gallery);
+
+          roomGrid.innerHTML = "";
+          data.rooms.forEach((r) => {
+            const row = document.createElement("button");
+            row.type = "button";
+            row.className = "roomRow roomBtn";
+            row.innerHTML =
+              '<div><div class="roomName">' +
+              escapeHtml(r.group) +
+              " — " +
+              escapeHtml(r.name) +
+              '</div><div class="tiny" style="margin-top:4px">Harga / malam</div></div>' +
+              '<div class="roomPrice">' +
+              escapeHtml(formatIdr(Number(r.priceIdr || 0))) +
+              "</div>";
+            row.addEventListener("click", () => {
+              waForRoom(r.group, r.name, r.priceIdr);
+            });
+            roomGrid.appendChild(row);
+          });
+
+          renderPackageGrid(snorkPackageGrid, data.snorkelingPackages || []);
+          renderPackageGrid(otherPackageGrid, data.otherPackages || []);
+
+          // Galeri
+          renderGallery(data.galleryImages || []);
+        }
+
+        function showViewer(open, src) {
+          if (!imgViewer) return;
+          imgViewer.classList.toggle("show", !!open);
+          imgViewer.setAttribute("aria-hidden", open ? "false" : "true");
+          if (open && src && imgViewerImg) {
+            imgViewerImg.src = src;
+            if (imgViewerTitle) imgViewerTitle.textContent = "Galeri Kamar";
+          }
+        }
+
+        if (imgViewerClose) imgViewerClose.addEventListener("click", () => showViewer(false));
+        if (imgViewer)
+          imgViewer.addEventListener("click", (e) => {
+            if (e.target === imgViewer) showViewer(false);
+          });
+
+        function renderGallery(images) {
+          if (!galleryGrid) return;
+          galleryGrid.innerHTML = "";
+
+          const list = Array.isArray(images) ? images : [];
+          if (galleryHint) {
+            galleryHint.textContent =
+              list.length === 0
+                ? "Belum ada foto. Upload dari Admin → Galeri Kamar."
+                : "";
+          }
+
+          list.forEach((src, idx) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "galleryItem";
+            btn.setAttribute("aria-label", "Buka foto " + (idx + 1));
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = "Foto kamar " + (idx + 1);
+            btn.appendChild(img);
+            btn.addEventListener("click", () => showViewer(true, src));
+            galleryGrid.appendChild(btn);
+          });
+        }
+
+        // Booking button
+        $("waBtn").addEventListener("click", () => {
+          const msg = [
+            "Halo Banana Leaf 👋",
+            "",
+            "Saya mau reservasi/booking.",
+            "Mohon info ketersediaan & harga ya.",
+            "",
+            "Terima kasih!",
+          ].join("\\n");
+          window.open(buildWaLink(data.whatsappNumber, msg), "_blank");
+        });
+
+        // Admin modal
+        const backdrop = $("backdrop");
+        const openAdmin = $("openAdmin");
+        const closeAdmin = $("closeAdmin");
+        const loginBox = $("loginBox");
+        const editor = $("editor");
+        const err = $("err");
+        const pw = $("pw");
+
+        function showAdmin(open) {
+          backdrop.classList.toggle("show", !!open);
+          backdrop.setAttribute("aria-hidden", open ? "false" : "true");
+          if (open) {
+            data = getData();
+            renderAdmin();
+          }
+        }
+
+        function renderAdmin() {
+          const authed = sessionStorage.getItem(SESSION_KEY) === "1";
+          loginBox.style.display = authed ? "none" : "block";
+          editor.style.display = authed ? "block" : "none";
+          err.textContent = "";
+          pw.value = "";
+
+          if (authed) {
+            $("waNumber").value = data.whatsappNumber || "";
+            $("titleInput").value = data.title || "";
+            $("handleInput").value = data.handle || "";
+            $("bioInput").value = data.bio || "";
+            $("snorkInput").value = data.snorkelingText || "";
+            const preview = $("logoPreview");
+            if (data.logoDataUrl) {
+              preview.src = data.logoDataUrl;
+              preview.style.display = "block";
+            } else {
+              preview.style.display = "none";
+            }
+            // Preview gambar card
+            const imgs = data.cardImages || {};
+            setPreviewImg("cardImgBookingPreview", imgs.booking);
+            setPreviewImg("cardImgRoomsPreview", imgs.rooms);
+            setPreviewImg("cardImgSnorkelingPreview", imgs.snorkeling);
+            setPreviewImg("cardImgActivitiesPreview", imgs.activities);
+            setPreviewImg("cardImgGalleryPreview", imgs.gallery);
+            renderRoomEditor();
+            renderPackageEditor(
+              "snorkPackageEditor",
+              data.snorkelingPackages,
+              "+ Tambah paket snorkeling"
+            );
+            renderPackageEditor(
+              "otherPackageEditor",
+              data.otherPackages,
+              "+ Tambah aktivitas"
+            );
+
+            // Galeri (thumbnail preview)
+            renderGalleryAdminThumbs();
+          }
+        }
+
+        function renderGalleryAdminThumbs() {
+          const wrap = $("galleryAdminThumbs");
+          if (!wrap) return;
+          wrap.innerHTML = "";
+          const list = Array.isArray(data.galleryImages) ? data.galleryImages : [];
+          list.slice(0, 18).forEach((src) => {
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = "thumb";
+            img.className = "logoPreview";
+            img.style.display = "block";
+            wrap.appendChild(img);
+          });
+          if (list.length > 18) {
+            const more = document.createElement("div");
+            more.style.marginTop = "10px";
+            more.style.fontSize = "12px";
+            more.style.color = "rgba(0,0,0,0.6)";
+            more.style.fontWeight = "800";
+            more.textContent = "+" + (list.length - 18) + " foto lagi";
+            wrap.appendChild(more);
+          }
+        }
+
+        function setPreviewImg(id, dataUrl) {
+          const el = $(id);
+          if (!el) return;
+          if (dataUrl) {
+            el.src = dataUrl;
+            el.style.display = "block";
+          } else {
+            el.style.display = "none";
+          }
+        }
+
+        function renderPackageEditor(containerId, list, addLabel) {
+          const wrap = $(containerId);
+          if (!wrap) return;
+          if (!Array.isArray(list)) list = [];
+          wrap.innerHTML = "";
+
+          list.forEach((p, idx) => {
+            const box = document.createElement("div");
+            box.style.marginTop = "10px";
+            box.style.padding = "12px";
+            box.style.border = "1px solid rgba(0,0,0,0.12)";
+            box.style.borderRadius = "16px";
+            box.innerHTML =
+              '<div style="font-weight:1000;font-size:12px;color:rgba(0,0,0,0.6)">Paket</div>' +
+              '<div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px">' +
+              '<label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">Nama<input data-pid="' +
+              containerId +
+              '" data-i="' +
+              idx +
+              '" data-f="name" value="' +
+              escapeAttr(p.name) +
+              '"></label>' +
+              '<label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">Harga (Rp)<input type="number" min="0" data-pid="' +
+              containerId +
+              '" data-i="' +
+              idx +
+              '" data-f="priceIdr" value="' +
+              Number(p.priceIdr || 0) +
+              '"></label>' +
+              '<label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">Keterangan (opsional)<input data-pid="' +
+              containerId +
+              '" data-i="' +
+              idx +
+              '" data-f="note" value="' +
+              escapeAttr(p.note || "") +
+              '"></label>' +
+              "</div>" +
+              '<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">' +
+              '<button class="adminBtn" type="button" data-del-pid="' +
+              containerId +
+              '" data-del="' +
+              idx +
+              '">Hapus</button>' +
+              "</div>";
+            wrap.appendChild(box);
+          });
+
+          const add = document.createElement("button");
+          add.type = "button";
+          add.className = "adminBtn";
+          add.style.marginTop = "12px";
+          add.textContent = addLabel || "+ Tambah";
+          add.addEventListener("click", () => {
+            list.push({ name: "Paket Baru", priceIdr: 0, note: "" });
+            // sync back to data
+            if (containerId === "snorkPackageEditor") data.snorkelingPackages = list;
+            if (containerId === "otherPackageEditor") data.otherPackages = list;
+            renderAdmin();
+          });
+          wrap.appendChild(add);
+
+          wrap.querySelectorAll("input[data-pid]").forEach((inp) => {
+            inp.addEventListener("input", (e) => {
+              const el = e.target;
+              const pid = el.getAttribute("data-pid");
+              const i = Number(el.getAttribute("data-i"));
+              const f = el.getAttribute("data-f");
+              if (!pid || Number.isNaN(i) || !f) return;
+              const target =
+                pid === "snorkPackageEditor"
+                  ? data.snorkelingPackages
+                  : data.otherPackages;
+              if (!target || !target[i]) return;
+              if (f === "priceIdr") target[i][f] = Number(el.value || 0);
+              else target[i][f] = el.value;
+            });
+          });
+          wrap.querySelectorAll("button[data-del-pid]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const pid = e.target.getAttribute("data-del-pid");
+              const i = Number(e.target.getAttribute("data-del"));
+              if (!pid || Number.isNaN(i)) return;
+              const target =
+                pid === "snorkPackageEditor"
+                  ? data.snorkelingPackages
+                  : data.otherPackages;
+              target.splice(i, 1);
+              renderAdmin();
+            });
+          });
+        }
+
+        function renderRoomEditor() {
+          const wrap = $("roomEditor");
+          wrap.innerHTML = "";
+          data.rooms.forEach((r, idx) => {
+            const box = document.createElement("div");
+            box.style.marginTop = "10px";
+            box.style.padding = "12px";
+            box.style.border = "1px solid rgba(0,0,0,0.12)";
+            box.style.borderRadius = "16px";
+            box.innerHTML =
+              '<div style="font-weight:1000;font-size:12px;color:rgba(0,0,0,0.6)">Tipe</div>' +
+              '<div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px">' +
+              '<label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">Group<input data-i="' +
+              idx +
+              '" data-f="group" value="' +
+              escapeAttr(r.group) +
+              '"></label>' +
+              '<label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">Nama kamar<input data-i="' +
+              idx +
+              '" data-f="name" value="' +
+              escapeAttr(r.name) +
+              '"></label>' +
+              '<label style="font-size:12px;font-weight:900;display:flex;flex-direction:column;gap:7px">Harga (Rp)<input type="number" min="0" data-i="' +
+              idx +
+              '" data-f="priceIdr" value="' +
+              Number(r.priceIdr || 0) +
+              '"></label>' +
+              "</div>" +
+              '<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">' +
+              '<button class="adminBtn" type="button" data-del="' +
+              idx +
+              '">Hapus</button>' +
+              "</div>";
+            wrap.appendChild(box);
+          });
+
+          const add = document.createElement("button");
+          add.type = "button";
+          add.className = "adminBtn";
+          add.style.marginTop = "12px";
+          add.textContent = "+ Tambah kamar";
+          add.addEventListener("click", () => {
+            data.rooms.push({ group: "Banana Leaf", name: "Kamar Baru", priceIdr: 0 });
+            renderRoomEditor();
+          });
+          wrap.appendChild(add);
+
+          wrap.querySelectorAll("input[data-i]").forEach((inp) => {
+            inp.addEventListener("input", (e) => {
+              const el = e.target;
+              const i = Number(el.getAttribute("data-i"));
+              const f = el.getAttribute("data-f");
+              if (Number.isNaN(i) || !f) return;
+              if (f === "priceIdr") data.rooms[i][f] = Number(el.value || 0);
+              else data.rooms[i][f] = el.value;
+            });
+          });
+          wrap.querySelectorAll("button[data-del]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const i = Number(e.target.getAttribute("data-del"));
+              if (!Number.isNaN(i)) {
+                data.rooms.splice(i, 1);
+                renderRoomEditor();
+              }
+            });
+          });
+        }
+
+        openAdmin.addEventListener("click", () => showAdmin(true));
+        closeAdmin.addEventListener("click", () => showAdmin(false));
+        backdrop.addEventListener("click", (e) => {
+          if (e.target === backdrop) showAdmin(false);
+        });
+
+        $("loginBtn").addEventListener("click", () => {
+          err.textContent = "";
+          if (pw.value !== ADMIN_PASSWORD) {
+            err.textContent = "Password salah.";
+            return;
+          }
+          sessionStorage.setItem(SESSION_KEY, "1");
+          renderAdmin();
+        });
+
+        $("logoutBtn").addEventListener("click", () => {
+          sessionStorage.removeItem(SESSION_KEY);
+          renderAdmin();
+        });
+
+        $("resetBtn").addEventListener("click", () => {
+          localStorage.removeItem(STORAGE_KEY);
+          data = getData();
+          err.textContent = "Sudah reset ke default.";
+          renderProfile();
+          renderAdmin();
+        });
+
+        $("logoFile").addEventListener("change", (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            const url = String(reader.result || "");
+            data.logoDataUrl = url;
+            const preview = $("logoPreview");
+            preview.src = url;
+            preview.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        });
+
+        function bindCardImageUpload(fileInputId, previewId, key) {
+          const input = $(fileInputId);
+          if (!input) return;
+          input.addEventListener("change", (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              const url = String(reader.result || "");
+              if (!data.cardImages) data.cardImages = {};
+              data.cardImages[key] = url;
+              setPreviewImg(previewId, url);
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+
+        bindCardImageUpload("cardImgBookingFile", "cardImgBookingPreview", "booking");
+        bindCardImageUpload("cardImgRoomsFile", "cardImgRoomsPreview", "rooms");
+        bindCardImageUpload(
+          "cardImgSnorkelingFile",
+          "cardImgSnorkelingPreview",
+          "snorkeling"
+        );
+        bindCardImageUpload(
+          "cardImgActivitiesFile",
+          "cardImgActivitiesPreview",
+          "activities"
+        );
+        bindCardImageUpload("cardImgGalleryFile", "cardImgGalleryPreview", "gallery");
+
+        // Galeri upload banyak foto (disimpan di localStorage)
+        const galleryFiles = $("galleryFiles");
+        const galleryClearBtn = $("galleryClearBtn");
+        const MAX_GALLERY = 24;
+
+        function readFileAsDataUrl(file) {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result || ""));
+            reader.readAsDataURL(file);
+          });
+        }
+
+        async function handleGalleryUpload(fileList) {
+          if (!fileList || fileList.length === 0) return;
+          if (!Array.isArray(data.galleryImages)) data.galleryImages = [];
+
+          // Tambahkan foto sampai batas MAX_GALLERY
+          for (const file of Array.from(fileList)) {
+            if (data.galleryImages.length >= MAX_GALLERY) break;
+            // Skip file besar banget supaya tidak berat
+            const url = await readFileAsDataUrl(file);
+            data.galleryImages.push(url);
+          }
+
+          renderGallery(data.galleryImages);
+          renderGalleryAdminThumbs();
+        }
+
+        if (galleryFiles) {
+          galleryFiles.addEventListener("change", async (e) => {
+            // eslint-disable-next-line no-unused-vars
+            const files = e.target.files;
+            await handleGalleryUpload(files);
+            // reset supaya bisa pilih file yang sama lagi
+            e.target.value = "";
+          });
+        }
+
+        if (galleryClearBtn) {
+          galleryClearBtn.addEventListener("click", () => {
+            data.galleryImages = [];
+            renderGallery(data.galleryImages);
+            renderGalleryAdminThumbs();
+          });
+        }
+
+        $("saveBtn").addEventListener("click", () => {
+          data.whatsappNumber = String($("waNumber").value || "").trim();
+          data.title = String($("titleInput").value || "").trim();
+          data.handle = String($("handleInput").value || "").trim();
+          data.bio = String($("bioInput").value || "").trim();
+          data.snorkelingText = String($("snorkInput").value || "").trim();
+          setData(data);
+          renderProfile();
+          alert("Tersimpan di HP/browser kamu.");
+        });
+
+        function escapeHtml(str) {
+          return String(str || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+        function escapeAttr(str) {
+          return escapeHtml(str).replaceAll("\\n", " ");
+        }
+
+        // initial render
+        renderProfile();
+      })();
+    </script>
+  </body>
+</html>
