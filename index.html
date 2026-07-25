@@ -238,6 +238,126 @@
         display: grid;
         gap: 10px;
       }
+
+      /* Room Card Grid */
+      .roomCardGrid {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .roomCard {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .roomCard:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        border-color: rgba(247, 201, 72, 0.4);
+      }
+
+      .roomCardImage {
+        width: 100%;
+        height: 160px;
+        background: linear-gradient(
+          135deg,
+          rgba(47, 61, 31, 0.15),
+          rgba(247, 201, 72, 0.25)
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .roomCardImage img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .roomCardImageOverlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.12));
+        display: none;
+      }
+
+      .roomCardImage img[src]:not([src=""]) ~ .roomCardImageOverlay {
+        display: block;
+      }
+
+      .roomCardBadge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--accent);
+        color: rgba(0, 0, 0, 0.9);
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.05em;
+      }
+
+      .roomCardContent {
+        padding: 12px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .roomCardName {
+        font-weight: 900;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.95);
+        line-height: 1.3;
+      }
+
+      .roomCardGroup {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 6px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .roomCardPrice {
+        font-weight: 900;
+        font-size: 14px;
+        color: var(--accent);
+        margin-top: 8px;
+      }
+
+      .roomCardButton {
+        margin-top: 8px;
+        width: 100%;
+        padding: 8px 12px;
+        background: rgba(247, 201, 72, 0.15);
+        color: var(--accent);
+        border: 1px solid rgba(247, 201, 72, 0.3);
+        border-radius: 999px;
+        font-weight: 900;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        letter-spacing: 0.05em;
+      }
+
+      .roomCardButton:hover {
+        background: var(--accent);
+        color: rgba(0, 0, 0, 0.9);
+        border-color: var(--accent);
+      }
+
       .roomRow {
         padding: 12px;
         border-radius: 18px;
@@ -580,7 +700,7 @@
               <div class="icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path
-                    d="M12 2c5.52 0 10 3.58 10 8 0 2.81-1.77 5.3-4.5 6.7V22l-2.5-2-2.5 2-2.5-2-2.5 2v-5.3C1.77 15.3 0 12.81 0 10c0-4.42 4.48-8 10-8h2Zm-2 2C5.58 4 2 6.47 2 10c0 2.3 1.55 4.28 4 5.44V18l2.5-2 2.5 2 2.5-2 2.5 2v-2.56c2.45-1.16 4-3.14 4-5.44 0-3.53-3.58-6-8-6h-2Z"
+                    d="M12 2c5.52 0 10 3.58 10 8 0 2.81-1.77 5.3-4.5 6.7V22l-2.5-2-2.5 2-2.5-2-2.5 2v-5.3C1.77 15.3 0 12.81 0 10c0-4.42 4.48-8 10-8h2Zm-2 2C5.58 4 2 6.47 2 10c0 2.3 1.55 4.28 4 5.44V18l2-1.6 2 1.6v-2.56c2.45-1.16 4-3.14 4-5.44 0-3.53-3.58-6-8-6Z"
                     fill="rgba(0,0,0,0.7)"
                   />
                 </svg>
@@ -668,7 +788,7 @@
             <div class="tiny">
               Harga per malam (Rupiah). Edit lewat Admin supaya sesuai.
             </div>
-            <div class="roomGrid" id="roomGrid"></div>
+            <div class="roomCardGrid" id="roomGrid"></div>
           </div>
         </div>
 
@@ -859,6 +979,14 @@
             </div>
 
             <div class="field" style="margin-top: 18px">
+              Foto Kamar (upload per kamar)
+              <div style="font-size: 12px; color: rgba(0, 0, 0, 0.6); font-weight: 700">
+                Upload foto untuk setiap kamar. Akan ditampilkan di grid kamar.
+              </div>
+              <div id="roomPhotoEditor"></div>
+            </div>
+
+            <div class="field" style="margin-top: 18px">
               Harga Snorkeling (Rupiah)
               <div style="font-size: 12px; color: rgba(0, 0, 0, 0.6); font-weight: 700">
                 Tambah paket snorkeling & harga. Format angka: 150000 = Rp 150.000
@@ -916,11 +1044,11 @@
           },
           galleryImages: [],
           rooms: [
-            { group: "Banana Leaf Resort", name: "Resort Room", priceIdr: 350000 },
-            { group: "Banana Leaf Bungalow", name: "Deluxe Suite", priceIdr: 350000 },
-            { group: "Banana Leaf Bungalow", name: "Twin", priceIdr: 300000 },
-            { group: "Banana Leaf Bungalow", name: "Superior Double", priceIdr: 300000 },
-            { group: "Banana Leaf Bungalow", name: "Standard", priceIdr: 325000 },
+            { group: "Banana Leaf Resort", name: "Resort Room", priceIdr: 350000, photo: "" },
+            { group: "Banana Leaf Bungalow", name: "Deluxe Suite", priceIdr: 350000, photo: "" },
+            { group: "Banana Leaf Bungalow", name: "Twin", priceIdr: 300000, photo: "" },
+            { group: "Banana Leaf Bungalow", name: "Superior Double", priceIdr: 300000, photo: "" },
+            { group: "Banana Leaf Bungalow", name: "Standard", priceIdr: 325000, photo: "" },
           ],
           snorkelingPackages: [
             { name: "Snorkeling (per orang)", priceIdr: 150000, note: "Include alat" },
@@ -998,24 +1126,111 @@
             "• Kategori: " + title,
             "• Paket: " + name,
             "• Harga: " + formatIdr(Number(priceIdr || 0)),
-            note ? "• Keterangan: " + note : null,
-            "",
-            "Tanggal: (isi)",
-            "Jumlah peserta: (isi)",
+            note ? "• " + note : "",
             "",
             "Terima kasih!",
           ]);
         }
 
-        function render() {
+        function renderRooms() {
+          const data = getData();
+          const container = $("roomGrid");
+          container.innerHTML = "";
+          data.rooms.forEach((room, idx) => {
+            const roomEl = document.createElement("div");
+            roomEl.className = "roomCard";
+            roomEl.innerHTML = `
+              <div class="roomCardImage">
+                ${room.photo ? `<img src="${room.photo}" alt="${room.name}">` : ""}
+                <div class="roomCardImageOverlay"></div>
+                <div class="roomCardBadge">${room.group}</div>
+              </div>
+              <div class="roomCardContent">
+                <div>
+                  <div class="roomCardGroup">${room.group}</div>
+                  <div class="roomCardName">${room.name}</div>
+                  <div class="roomCardPrice">${formatIdr(room.priceIdr)}</div>
+                </div>
+                <button class="roomCardButton" onclick="waForRoom('${room.group.replace(/'/g, "\\'")}', '${room.name.replace(/'/g, "\\'")}', ${room.priceIdr})">
+                  PESAN SEKARANG
+                </button>
+              </div>
+            `;
+            container.appendChild(roomEl);
+          });
+        }
+
+        function renderSnorkeling() {
+          const data = getData();
+          $("snorkText").textContent = data.snorkelingText;
+          const container = $("snorkPackageGrid");
+          container.innerHTML = "";
+          data.snorkelingPackages.forEach((pkg) => {
+            const el = document.createElement("div");
+            el.className = "roomRow";
+            el.style.cursor = "pointer";
+            el.innerHTML = `
+              <div class="roomBtn">
+                <div class="roomName">${pkg.name}</div>
+                <div class="tiny">${pkg.note}</div>
+              </div>
+              <div class="roomPrice">${formatIdr(pkg.priceIdr)}</div>
+            `;
+            el.onclick = () => waForPackage("Snorkeling", pkg.name, pkg.priceIdr, pkg.note);
+            container.appendChild(el);
+          });
+        }
+
+        function renderActivities() {
+          const data = getData();
+          $("activitiesTitle").textContent = data.activitiesTitle;
+          $("activitiesText").textContent = data.activitiesText;
+          const container = $("otherPackageGrid");
+          container.innerHTML = "";
+          data.otherPackages.forEach((pkg) => {
+            const el = document.createElement("div");
+            el.className = "roomRow";
+            el.style.cursor = "pointer";
+            el.innerHTML = `
+              <div class="roomBtn">
+                <div class="roomName">${pkg.name}</div>
+                <div class="tiny">${pkg.note}</div>
+              </div>
+              <div class="roomPrice">${formatIdr(pkg.priceIdr)}</div>
+            `;
+            el.onclick = () => waForPackage(data.activitiesTitle, pkg.name, pkg.priceIdr, pkg.note);
+            container.appendChild(el);
+          });
+        }
+
+        function renderGallery() {
+          const data = getData();
+          const container = $("galleryGrid");
+          const hint = $("galleryHint");
+          if (!data.galleryImages || data.galleryImages.length === 0) {
+            hint.textContent = "(Belum ada foto)";
+            return;
+          }
+          hint.textContent = `${data.galleryImages.length} foto`;
+          container.innerHTML = "";
+          data.galleryImages.forEach((img) => {
+            const item = document.createElement("button");
+            item.className = "galleryItem";
+            item.type = "button";
+            item.innerHTML = `<img src="${img}" alt="Gallery item">`;
+            item.onclick = () => {
+              $("imgViewer").classList.add("show");
+              $("imgViewerImg").src = img;
+            };
+            container.appendChild(item);
+          });
+        }
+
+        function renderProfile() {
           const data = getData();
           $("profileTitle").textContent = data.title;
           $("profileHandle").textContent = data.handle;
           $("profileBio").textContent = data.bio;
-          $("snorkText").textContent = data.snorkelingText;
-          $("activitiesTitle").textContent = data.activitiesTitle;
-          $("activitiesText").textContent = data.activitiesText;
-
           if (data.logoDataUrl) {
             $("logoImg").src = data.logoDataUrl;
             $("logoImg").style.display = "block";
@@ -1024,540 +1239,354 @@
             $("logoImg").style.display = "none";
             $("logoFallback").style.display = "grid";
           }
-
-          const setCardImage = (elemId, imgData) => {
-            if (imgData) {
-              $(elemId).style.backgroundImage = `url("${imgData}")`;
-              $(elemId).classList.add("hasPhoto");
-            }
-          };
-          setCardImage("cardImgBooking", data.cardImages.booking);
-          setCardImage("cardImgRooms", data.cardImages.rooms);
-          setCardImage("cardImgSnorkeling", data.cardImages.snorkeling);
-          setCardImage("cardImgActivities", data.cardImages.activities);
-          setCardImage("cardImgGallery", data.cardImages.gallery);
-
-          const roomGrid = $("roomGrid");
-          roomGrid.innerHTML = "";
-          const roomsByGroup = {};
-          data.rooms.forEach((r) => {
-            if (!roomsByGroup[r.group]) roomsByGroup[r.group] = [];
-            roomsByGroup[r.group].push(r);
-          });
-
-          Object.entries(roomsByGroup).forEach(([group, rooms]) => {
-            rooms.forEach((room) => {
-              const btn = document.createElement("button");
-              btn.className = "roomRow";
-              btn.type = "button";
-              btn.innerHTML = `
-                <div class="roomName">${group} • ${room.name}</div>
-                <div class="roomPrice">${formatIdr(room.priceIdr)}</div>
-              `;
-              btn.addEventListener("click", () =>
-                waForRoom(group, room.name, room.priceIdr)
-              );
-              roomGrid.appendChild(btn);
-            });
-          });
-
-          const snorkGrid = $("snorkPackageGrid");
-          snorkGrid.innerHTML = "";
-          data.snorkelingPackages.forEach((pkg) => {
-            const btn = document.createElement("button");
-            btn.className = "roomRow";
-            btn.type = "button";
-            btn.innerHTML = `
-              <div>
-                <div class="roomName">${pkg.name}</div>
-                <div class="tiny">${pkg.note || ""}</div>
-              </div>
-              <div class="roomPrice">${formatIdr(pkg.priceIdr)}</div>
-            `;
-            btn.addEventListener("click", () =>
-              waForPackage("Snorkeling", pkg.name, pkg.priceIdr, pkg.note)
-            );
-            snorkGrid.appendChild(btn);
-          });
-
-          const otherGrid = $("otherPackageGrid");
-          otherGrid.innerHTML = "";
-          data.otherPackages.forEach((pkg) => {
-            const btn = document.createElement("button");
-            btn.className = "roomRow";
-            btn.type = "button";
-            btn.innerHTML = `
-              <div>
-                <div class="roomName">${pkg.name}</div>
-                <div class="tiny">${pkg.note || ""}</div>
-              </div>
-              <div class="roomPrice">${formatIdr(pkg.priceIdr)}</div>
-            `;
-            btn.addEventListener("click", () =>
-              waForPackage(data.activitiesTitle, pkg.name, pkg.priceIdr, pkg.note)
-            );
-            otherGrid.appendChild(btn);
-          });
-
-          const galleryGrid = $("galleryGrid");
-          galleryGrid.innerHTML = "";
-          if (data.galleryImages && data.galleryImages.length) {
-            data.galleryImages.forEach((imgData, i) => {
-              const item = document.createElement("button");
-              item.className = "galleryItem";
-              item.type = "button";
-              const img = document.createElement("img");
-              img.src = imgData;
-              img.alt = `Gallery ${i + 1}`;
-              item.appendChild(img);
-              item.addEventListener("click", () => {
-                $("imgViewerImg").src = imgData;
-                $("imgViewerTitle").textContent = `Foto ${i + 1}`;
-                $("imgViewer").classList.add("show");
-              });
-              galleryGrid.appendChild(item);
-            });
-            $("galleryHint").textContent = `(${data.galleryImages.length} foto)`;
-          }
+          if (data.cardImages.booking)
+            $("cardImgBooking").style.backgroundImage = `url(${data.cardImages.booking})`;
+          if (data.cardImages.rooms)
+            $("cardImgRooms").style.backgroundImage = `url(${data.cardImages.rooms})`;
+          if (data.cardImages.snorkeling)
+            $("cardImgSnorkeling").style.backgroundImage = `url(${data.cardImages.snorkeling})`;
+          if (data.cardImages.activities)
+            $("cardImgActivities").style.backgroundImage = `url(${data.cardImages.activities})`;
+          if (data.cardImages.gallery)
+            $("cardImgGallery").style.backgroundImage = `url(${data.cardImages.gallery})`;
         }
 
-        function initAdmin() {
-          const backdrop = $("backdrop");
-          const loginBox = $("loginBox");
-          const editor = $("editor");
-          const pw = $("pw");
-          const loginBtn = $("loginBtn");
-          const resetBtn = $("resetBtn");
-          const waNumber = $("waNumber");
-          const titleInput = $("titleInput");
-          const handleInput = $("handleInput");
-          const bioInput = $("bioInput");
-          const snorkInput = $("snorkInput");
-          const saveBtn = $("saveBtn");
-          const logoutBtn = $("logoutBtn");
+        function render() {
+          renderProfile();
+          renderRooms();
+          renderSnorkeling();
+          renderActivities();
+          renderGallery();
+        }
 
-          const openAdmin = $("openAdmin");
-          const closeAdmin = $("closeAdmin");
+        function checkAuth() {
+          return sessionStorage.getItem(SESSION_KEY) === "true";
+        }
 
-          openAdmin.addEventListener("click", () => {
-            backdrop.classList.add("show");
-            pw.focus();
-            pw.value = "";
-            loginBox.style.display = "block";
-            editor.style.display = "none";
-            $("err").textContent = "";
-          });
-
-          closeAdmin.addEventListener("click", () => {
-            backdrop.classList.remove("show");
-            pw.value = "";
-          });
-
-          loginBtn.addEventListener("click", () => {
-            if (pw.value === ADMIN_PASSWORD) {
-              sessionStorage.setItem(SESSION_KEY, "1");
-              showEditor();
-            } else {
-              $("err").textContent = "Password salah";
-            }
-          });
-
-          pw.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-              loginBtn.click();
-            }
-          });
-
-          resetBtn.addEventListener("click", () => {
-            if (confirm("Reset ke data default? Data sebelumnya akan hilang.")) {
-              localStorage.removeItem(STORAGE_KEY);
-              sessionStorage.removeItem(SESSION_KEY);
-              backdrop.classList.remove("show");
-              render();
-            }
-          });
-
-          function showEditor() {
-            const data = getData();
-            waNumber.value = data.whatsappNumber;
-            titleInput.value = data.title;
-            handleInput.value = data.handle;
-            bioInput.value = data.bio;
-            snorkInput.value = data.snorkelingText;
-
-            loginBox.style.display = "none";
-            editor.style.display = "block";
-
-            buildRoomEditor();
-            buildSnorkPackageEditor();
-            buildOtherPackageEditor();
-            buildGalleryAdmin();
-          }
-
-          function buildRoomEditor() {
-            const data = getData();
-            const container = $("roomEditor");
-            container.innerHTML = "";
-
-            data.rooms.forEach((room, idx) => {
-              const div = document.createElement("div");
-              div.style.marginTop = "10px";
-              div.style.padding = "10px";
-              div.style.background = "rgba(0,0,0,0.04)";
-              div.style.borderRadius = "12px";
-
-              const nameInput = document.createElement("input");
-              nameInput.type = "text";
-              nameInput.placeholder = "Tipe kamar";
-              nameInput.value = room.name;
-              nameInput.style.width = "100%";
-              nameInput.style.marginBottom = "7px";
-
-              const priceInput = document.createElement("input");
-              priceInput.type = "number";
-              priceInput.placeholder = "Harga (angka)";
-              priceInput.value = room.priceIdr;
-              priceInput.style.width = "100%";
-              priceInput.style.marginBottom = "7px";
-
-              const delBtn = document.createElement("button");
-              delBtn.className = "adminBtn";
-              delBtn.textContent = "Hapus";
-              delBtn.type = "button";
-              delBtn.addEventListener("click", () => {
-                data.rooms.splice(idx, 1);
-                setData(data);
-                buildRoomEditor();
-              });
-
-              div.appendChild(nameInput);
-              div.appendChild(priceInput);
-              div.appendChild(delBtn);
-              container.appendChild(div);
-
-              nameInput.addEventListener("input", () => {
-                room.name = nameInput.value;
-              });
-              priceInput.addEventListener("input", () => {
-                room.priceIdr = parseInt(priceInput.value) || 0;
-              });
-            });
-
-            const addBtn = document.createElement("button");
-            addBtn.className = "adminBtn adminBtnPrimary";
-            addBtn.textContent = "+ Tambah Kamar";
-            addBtn.type = "button";
-            addBtn.style.marginTop = "10px";
-            addBtn.addEventListener("click", () => {
-              data.rooms.push({ group: "Banana Leaf Bungalow", name: "Kamar Baru", priceIdr: 300000 });
-              setData(data);
-              buildRoomEditor();
-            });
-            container.appendChild(addBtn);
-          }
-
-          function buildSnorkPackageEditor() {
-            const data = getData();
-            const container = $("snorkPackageEditor");
-            container.innerHTML = "";
-
-            data.snorkelingPackages.forEach((pkg, idx) => {
-              const div = document.createElement("div");
-              div.style.marginTop = "10px";
-              div.style.padding = "10px";
-              div.style.background = "rgba(0,0,0,0.04)";
-              div.style.borderRadius = "12px";
-
-              const nameInput = document.createElement("input");
-              nameInput.type = "text";
-              nameInput.placeholder = "Nama paket";
-              nameInput.value = pkg.name;
-              nameInput.style.width = "100%";
-              nameInput.style.marginBottom = "7px";
-
-              const priceInput = document.createElement("input");
-              priceInput.type = "number";
-              priceInput.placeholder = "Harga";
-              priceInput.value = pkg.priceIdr;
-              priceInput.style.width = "100%";
-              priceInput.style.marginBottom = "7px";
-
-              const noteInput = document.createElement("input");
-              noteInput.type = "text";
-              noteInput.placeholder = "Catatan (opsional)";
-              noteInput.value = pkg.note || "";
-              noteInput.style.width = "100%";
-              noteInput.style.marginBottom = "7px";
-
-              const delBtn = document.createElement("button");
-              delBtn.className = "adminBtn";
-              delBtn.textContent = "Hapus";
-              delBtn.type = "button";
-              delBtn.addEventListener("click", () => {
-                data.snorkelingPackages.splice(idx, 1);
-                setData(data);
-                buildSnorkPackageEditor();
-              });
-
-              div.appendChild(nameInput);
-              div.appendChild(priceInput);
-              div.appendChild(noteInput);
-              div.appendChild(delBtn);
-              container.appendChild(div);
-
-              nameInput.addEventListener("input", () => {
-                pkg.name = nameInput.value;
-              });
-              priceInput.addEventListener("input", () => {
-                pkg.priceIdr = parseInt(priceInput.value) || 0;
-              });
-              noteInput.addEventListener("input", () => {
-                pkg.note = noteInput.value;
-              });
-            });
-
-            const addBtn = document.createElement("button");
-            addBtn.className = "adminBtn adminBtnPrimary";
-            addBtn.textContent = "+ Tambah Paket Snorkeling";
-            addBtn.type = "button";
-            addBtn.style.marginTop = "10px";
-            addBtn.addEventListener("click", () => {
-              data.snorkelingPackages.push({ name: "Paket Baru", priceIdr: 150000, note: "" });
-              setData(data);
-              buildSnorkPackageEditor();
-            });
-            container.appendChild(addBtn);
-          }
-
-          function buildOtherPackageEditor() {
-            const data = getData();
-            const container = $("otherPackageEditor");
-            container.innerHTML = "";
-
-            data.otherPackages.forEach((pkg, idx) => {
-              const div = document.createElement("div");
-              div.style.marginTop = "10px";
-              div.style.padding = "10px";
-              div.style.background = "rgba(0,0,0,0.04)";
-              div.style.borderRadius = "12px";
-
-              const nameInput = document.createElement("input");
-              nameInput.type = "text";
-              nameInput.placeholder = "Nama paket";
-              nameInput.value = pkg.name;
-              nameInput.style.width = "100%";
-              nameInput.style.marginBottom = "7px";
-
-              const priceInput = document.createElement("input");
-              priceInput.type = "number";
-              priceInput.placeholder = "Harga";
-              priceInput.value = pkg.priceIdr;
-              priceInput.style.width = "100%";
-              priceInput.style.marginBottom = "7px";
-
-              const noteInput = document.createElement("input");
-              noteInput.type = "text";
-              noteInput.placeholder = "Catatan (opsional)";
-              noteInput.value = pkg.note || "";
-              noteInput.style.width = "100%";
-              noteInput.style.marginBottom = "7px";
-
-              const delBtn = document.createElement("button");
-              delBtn.className = "adminBtn";
-              delBtn.textContent = "Hapus";
-              delBtn.type = "button";
-              delBtn.addEventListener("click", () => {
-                data.otherPackages.splice(idx, 1);
-                setData(data);
-                buildOtherPackageEditor();
-              });
-
-              div.appendChild(nameInput);
-              div.appendChild(priceInput);
-              div.appendChild(noteInput);
-              div.appendChild(delBtn);
-              container.appendChild(div);
-
-              nameInput.addEventListener("input", () => {
-                pkg.name = nameInput.value;
-              });
-              priceInput.addEventListener("input", () => {
-                pkg.priceIdr = parseInt(priceInput.value) || 0;
-              });
-              noteInput.addEventListener("input", () => {
-                pkg.note = noteInput.value;
-              });
-            });
-
-            const addBtn = document.createElement("button");
-            addBtn.className = "adminBtn adminBtnPrimary";
-            addBtn.textContent = "+ Tambah Aktivitas";
-            addBtn.type = "button";
-            addBtn.style.marginTop = "10px";
-            addBtn.addEventListener("click", () => {
-              data.otherPackages.push({ name: "Aktivitas Baru", priceIdr: 200000, note: "" });
-              setData(data);
-              buildOtherPackageEditor();
-            });
-            container.appendChild(addBtn);
-          }
-
-          function buildGalleryAdmin() {
-            const data = getData();
-            const thumbContainer = $("galleryAdminThumbs");
-            thumbContainer.innerHTML = "";
-            if (data.galleryImages) {
-              data.galleryImages.forEach((imgData, idx) => {
-                const wrapper = document.createElement("div");
-                wrapper.style.position = "relative";
-                wrapper.style.display = "inline-block";
-
-                const img = document.createElement("img");
-                img.src = imgData;
-                img.style.width = "70px";
-                img.style.height = "70px";
-                img.style.objectFit = "cover";
-                img.style.borderRadius = "8px";
-
-                const delBtn = document.createElement("button");
-                delBtn.textContent = "×";
-                delBtn.type = "button";
-                delBtn.style.position = "absolute";
-                delBtn.style.top = "-8px";
-                delBtn.style.right = "-8px";
-                delBtn.style.width = "24px";
-                delBtn.style.height = "24px";
-                delBtn.style.borderRadius = "999px";
-                delBtn.style.background = "#b91c1c";
-                delBtn.style.color = "#fff";
-                delBtn.style.border = "none";
-                delBtn.style.cursor = "pointer";
-                delBtn.style.fontWeight = "bold";
-                delBtn.addEventListener("click", () => {
-                  data.galleryImages.splice(idx, 1);
-                  setData(data);
-                  buildGalleryAdmin();
-                  render();
-                });
-
-                wrapper.appendChild(img);
-                wrapper.appendChild(delBtn);
-                thumbContainer.appendChild(wrapper);
-              });
-            }
-          }
-
-          const galleryFiles = $("galleryFiles");
-          galleryFiles.addEventListener("change", (e) => {
-            const files = Array.from(e.target.files);
-            Promise.all(
-              files.map(
-                (f) =>
-                  new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (ev) => resolve(ev.target.result);
-                    reader.readAsDataURL(f);
-                  })
-              )
-            ).then((dataUrls) => {
-              const data = getData();
-              data.galleryImages = data.galleryImages || [];
-              data.galleryImages.push(...dataUrls);
-              setData(data);
-              buildGalleryAdmin();
-              render();
-              galleryFiles.value = "";
-            });
-          });
-
-          const galleryClearBtn = $("galleryClearBtn");
-          galleryClearBtn.addEventListener("click", () => {
-            if (confirm("Hapus semua foto galeri?")) {
-              const data = getData();
-              data.galleryImages = [];
-              setData(data);
-              buildGalleryAdmin();
-              render();
-            }
-          });
-
-          const fileInputs = [
-            ["logoFile", "logoDataUrl"],
-            ["cardImgBookingFile", "cardImages.booking"],
-            ["cardImgRoomsFile", "cardImages.rooms"],
-            ["cardImgSnorkelingFile", "cardImages.snorkeling"],
-            ["cardImgActivitiesFile", "cardImages.activities"],
-            ["cardImgGalleryFile", "cardImages.gallery"],
-          ];
-
-          fileInputs.forEach(([inputId, dataPath]) => {
-            $(inputId).addEventListener("change", (e) => {
-              if (e.target.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                  const data = getData();
-                  if (dataPath.includes(".")) {
-                    const [parent, key] = dataPath.split(".");
-                    data[parent][key] = ev.target.result;
-                  } else {
-                    data[dataPath] = ev.target.result;
-                  }
-                  setData(data);
-                  render();
-                };
-                reader.readAsDataURL(e.target.files[0]);
-              }
-            });
-          });
-
-          saveBtn.addEventListener("click", () => {
-            const data = getData();
-            data.title = titleInput.value || data.title;
-            data.handle = handleInput.value || data.handle;
-            data.bio = bioInput.value || data.bio;
-            data.whatsappNumber = waNumber.value || data.whatsappNumber;
-            data.snorkelingText = snorkInput.value || data.snorkelingText;
-            setData(data);
-            render();
-            alert("Simpan berhasil!");
-          });
-
-          logoutBtn.addEventListener("click", () => {
+        function setAuth(authed) {
+          if (authed) {
+            sessionStorage.setItem(SESSION_KEY, "true");
+          } else {
             sessionStorage.removeItem(SESSION_KEY);
-            backdrop.classList.remove("show");
-          });
-
-          if (sessionStorage.getItem(SESSION_KEY) === "1") {
-            backdrop.classList.add("show");
-            showEditor();
           }
         }
 
-        const waBtn = $("waBtn");
-        waBtn.addEventListener("click", () => {
+        function renderEditor() {
+          const data = getData();
+          $("waNumber").value = data.whatsappNumber;
+          $("titleInput").value = data.title;
+          $("handleInput").value = data.handle;
+          $("bioInput").value = data.bio;
+          $("snorkInput").value = data.snorkelingText;
+
+          const roomEditor = $("roomEditor");
+          roomEditor.innerHTML = "";
+          data.rooms.forEach((room, idx) => {
+            const fieldEl = document.createElement("div");
+            fieldEl.style.marginTop = "10px";
+            fieldEl.style.padding = "10px";
+            fieldEl.style.background = "rgba(0,0,0,0.03)";
+            fieldEl.style.borderRadius = "10px";
+            fieldEl.innerHTML = `
+              <div style="font-weight:900;margin-bottom:6px">${room.group} — ${room.name}</div>
+              <input type="text" placeholder="Nama kamar" value="${room.name}" data-field="rooms" data-idx="${idx}" data-prop="name" style="width:100%;margin-bottom:6px;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+              <input type="number" placeholder="Harga (Rp)" value="${room.priceIdr}" data-field="rooms" data-idx="${idx}" data-prop="priceIdr" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+            `;
+            roomEditor.appendChild(fieldEl);
+          });
+
+          const roomPhotoEditor = $("roomPhotoEditor");
+          roomPhotoEditor.innerHTML = "";
+          data.rooms.forEach((room, idx) => {
+            const fieldEl = document.createElement("div");
+            fieldEl.style.marginTop = "10px";
+            fieldEl.style.padding = "10px";
+            fieldEl.style.background = "rgba(0,0,0,0.03)";
+            fieldEl.style.borderRadius = "10px";
+            fieldEl.innerHTML = `
+              <div style="font-weight:900;margin-bottom:8px">${room.group} — ${room.name}</div>
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <input type="file" accept="image/*" data-room-idx="${idx}" class="roomPhotoFile" style="flex:1">
+                ${room.photo ? `<img src="${room.photo}" alt="Room photo" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">` : ""}
+              </div>
+            `;
+            roomPhotoEditor.appendChild(fieldEl);
+          });
+
+          const snorkEditor = $("snorkPackageEditor");
+          snorkEditor.innerHTML = "";
+          data.snorkelingPackages.forEach((pkg, idx) => {
+            const el = document.createElement("div");
+            el.style.marginTop = "10px";
+            el.style.padding = "10px";
+            el.style.background = "rgba(0,0,0,0.03)";
+            el.style.borderRadius = "10px";
+            el.innerHTML = `
+              <input type="text" placeholder="Nama paket" value="${pkg.name}" data-field="snorkelingPackages" data-idx="${idx}" data-prop="name" style="width:100%;margin-bottom:6px;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+              <input type="number" placeholder="Harga" value="${pkg.priceIdr}" data-field="snorkelingPackages" data-idx="${idx}" data-prop="priceIdr" style="width:100%;margin-bottom:6px;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+              <input type="text" placeholder="Catatan" value="${pkg.note}" data-field="snorkelingPackages" data-idx="${idx}" data-prop="note" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+              <button type="button" class="adminBtn" onclick="removeSnorkPackage(${idx})" style="margin-top:8px">Hapus</button>
+            `;
+            snorkEditor.appendChild(el);
+          });
+
+          const otherEditor = $("otherPackageEditor");
+          otherEditor.innerHTML = "";
+          data.otherPackages.forEach((pkg, idx) => {
+            const el = document.createElement("div");
+            el.style.marginTop = "10px";
+            el.style.padding = "10px";
+            el.style.background = "rgba(0,0,0,0.03)";
+            el.style.borderRadius = "10px";
+            el.innerHTML = `
+              <input type="text" placeholder="Nama paket" value="${pkg.name}" data-field="otherPackages" data-idx="${idx}" data-prop="name" style="width:100%;margin-bottom:6px;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+              <input type="number" placeholder="Harga" value="${pkg.priceIdr}" data-field="otherPackages" data-idx="${idx}" data-prop="priceIdr" style="width:100%;margin-bottom:6px;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+              <input type="text" placeholder="Catatan" value="${pkg.note}" data-field="otherPackages" data-idx="${idx}" data-prop="note" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-size:13px;">
+              <button type="button" class="adminBtn" onclick="removeOtherPackage(${idx})" style="margin-top:8px">Hapus</button>
+            `;
+            otherEditor.appendChild(el);
+          });
+
+          const galleryThumbs = $("galleryAdminThumbs");
+          galleryThumbs.innerHTML = "";
+          data.galleryImages.forEach((img, idx) => {
+            const el = document.createElement("div");
+            el.style.position = "relative";
+            el.innerHTML = `
+              <img src="${img}" alt="Gallery ${idx}" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:1px solid rgba(0,0,0,0.1);">
+              <button type="button" onclick="removeGalleryPhoto(${idx})" style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#b91c1c;color:white;border:none;border-radius:999px;font-size:12px;cursor:pointer;font-weight:900">×</button>
+            `;
+            galleryThumbs.appendChild(el);
+          });
+        }
+
+        window.removeSnorkPackage = function (idx) {
+          const data = getData();
+          data.snorkelingPackages.splice(idx, 1);
+          setData(data);
+          renderEditor();
+        };
+
+        window.removeOtherPackage = function (idx) {
+          const data = getData();
+          data.otherPackages.splice(idx, 1);
+          setData(data);
+          renderEditor();
+        };
+
+        window.removeGalleryPhoto = function (idx) {
+          const data = getData();
+          data.galleryImages.splice(idx, 1);
+          setData(data);
+          render();
+          renderEditor();
+        };
+
+        window.waForRoom = waForRoom;
+
+        // Events
+        $("openAdmin").onclick = () => {
+          if (!checkAuth()) {
+            $("loginBox").style.display = "block";
+            $("editor").style.display = "none";
+          } else {
+            $("loginBox").style.display = "none";
+            $("editor").style.display = "block";
+            renderEditor();
+          }
+          $("backdrop").classList.add("show");
+          $("err").textContent = "";
+        };
+
+        $("closeAdmin").onclick = () => {
+          $("backdrop").classList.remove("show");
+        };
+
+        $("loginBtn").onclick = () => {
+          const pw = $("pw").value;
+          if (pw === ADMIN_PASSWORD) {
+            setAuth(true);
+            $("pw").value = "";
+            $("loginBox").style.display = "none";
+            $("editor").style.display = "block";
+            renderEditor();
+            $("err").textContent = "";
+          } else {
+            $("err").textContent = "Password salah!";
+          }
+        };
+
+        $("logoutBtn").onclick = () => {
+          setAuth(false);
+          $("backdrop").classList.remove("show");
+        };
+
+        $("resetBtn").onclick = () => {
+          if (confirm("Reset ke default? Data akan hilang!")) {
+            localStorage.removeItem(STORAGE_KEY);
+            render();
+            $("backdrop").classList.remove("show");
+          }
+        };
+
+        $("waBtn").onclick = () => {
           openWaTemplate([
-            "Halo Banana Leaf 👋",
+            "Halo Banana Leaf! 👋",
             "",
             "Saya tertarik untuk booking penginapan.",
-            "Bisa bantu saya dengan informasi lebih lanjut?",
+            "Bisa minta informasi lebih lengkap?",
             "",
             "Terima kasih!",
           ]);
-        });
+        };
 
-        const imgViewerClose = $("imgViewerClose");
-        imgViewerClose.addEventListener("click", () => {
+        $("imgViewerClose").onclick = () => {
           $("imgViewer").classList.remove("show");
-        });
+        };
 
-        $("imgViewer").addEventListener("click", (e) => {
-          if (e.target === $("imgViewer")) {
-            $("imgViewer").classList.remove("show");
+        $("logoFile").onchange = function () {
+          if (this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              $("logoPreview").src = e.target.result;
+              $("logoPreview").style.display = "block";
+            };
+            reader.readAsDataURL(this.files[0]);
           }
-        });
+        };
 
+        ["bookingFile", "roomsFile", "snorkelingFile", "activitiesFile", "galleryFile"].forEach(
+          (id) => {
+            const previewId = "cardImg" + id.charAt(0).toUpperCase() + id.slice(1) + "Preview";
+            $("cardImg" + id.charAt(0).toUpperCase() + id.slice(1) + "File").onchange = function () {
+              if (this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  $(previewId).src = e.target.result;
+                  $(previewId).style.display = "block";
+                };
+                reader.readAsDataURL(this.files[0]);
+              }
+            };
+          }
+        );
+
+        const cardImageMap = {
+          cardImgBookingFile: "booking",
+          cardImgRoomsFile: "rooms",
+          cardImgSnorkelingFile: "snorkeling",
+          cardImgActivitiesFile: "activities",
+          cardImgGalleryFile: "gallery",
+        };
+
+        $("saveBtn").onclick = function () {
+          const data = getData();
+          data.whatsappNumber = $("waNumber").value;
+          data.title = $("titleInput").value;
+          data.handle = $("handleInput").value;
+          data.bio = $("bioInput").value;
+          data.snorkelingText = $("snorkInput").value;
+
+          // Update room info
+          document.querySelectorAll("input[data-field='rooms']").forEach((input) => {
+            const idx = parseInt(input.dataset.idx);
+            const prop = input.dataset.prop;
+            const value = prop === "priceIdr" ? Number(input.value) : input.value;
+            data.rooms[idx][prop] = value;
+          });
+
+          // Update room photos
+          document.querySelectorAll(".roomPhotoFile").forEach((input) => {
+            if (input.files[0]) {
+              const reader = new FileReader();
+              const idx = parseInt(input.dataset.roomIdx);
+              reader.onload = (e) => {
+                data.rooms[idx].photo = e.target.result;
+                setData(data);
+                render();
+              };
+              reader.readAsDataURL(input.files[0]);
+            }
+          });
+
+          // Update snorkeling packages
+          document.querySelectorAll("input[data-field='snorkelingPackages']").forEach((input) => {
+            const idx = parseInt(input.dataset.idx);
+            const prop = input.dataset.prop;
+            const value = prop === "priceIdr" ? Number(input.value) : input.value;
+            data.snorkelingPackages[idx][prop] = value;
+          });
+
+          // Update other packages
+          document.querySelectorAll("input[data-field='otherPackages']").forEach((input) => {
+            const idx = parseInt(input.dataset.idx);
+            const prop = input.dataset.prop;
+            const value = prop === "priceIdr" ? Number(input.value) : input.value;
+            data.otherPackages[idx][prop] = value;
+          });
+
+          // Card images
+          Object.entries(cardImageMap).forEach(([inputId, key]) => {
+            const input = $(inputId);
+            if (input.files[0]) {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                data.cardImages[key] = e.target.result;
+                setData(data);
+                render();
+              };
+              reader.readAsDataURL(input.files[0]);
+            }
+          });
+
+          // Logo
+          const logoInput = $("logoFile");
+          if (logoInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              data.logoDataUrl = e.target.result;
+              setData(data);
+              render();
+            };
+            reader.readAsDataURL(logoInput.files[0]);
+          }
+
+          // Gallery
+          const galleryInput = $("galleryFiles");
+          if (galleryInput.files.length > 0) {
+            const filesToProcess = Array.from(galleryInput.files);
+            let processed = 0;
+            filesToProcess.forEach((file) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                data.galleryImages.push(e.target.result);
+                processed++;
+                if (processed === filesToProcess.length) {
+                  setData(data);
+                  render();
+                  renderEditor();
+                }
+              };
+              reader.readAsDataURL(file);
+            });
+          } else {
+            setData(data);
+            render();
+          }
+        };
+
+        $("galleryClearBtn").onclick = () => {
+          if (confirm("Hapus semua foto galeri?")) {
+            const data = getData();
+            data.galleryImages = [];
+            setData(data);
+            render();
+            renderEditor();
+          }
+        };
+
+        // Init
         render();
-        initAdmin();
       })();
     </script>
   </body>
